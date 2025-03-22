@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PokeDex</title>
+
+  <!-- Scripts -->
+  <script src="./javascript/setup.js"></script>
+  <script src="./javascript/pokemon-list.js"></script>
+  <script src="./javascript/pokemon-info.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9Si4dIRy0EXTlnuz47vAwmeGwVChigm"
+    crossorigin="anonymous"
+  />
+</head>
+
+<body onload="getAllNames()" class="row">
+  <!-- Loading Overlay -->
+  <div id="loading-div">
+    <img src="src/pokeball-icon.png" class="loading-ball" />
+  </div>
+
+  <!-- Left Side: Pokedex / TCG listing -->
+  <div id="pokedex-list" class="column">
+    <!-- Mode Toggle -->
+    <div id="mode-toggle-container" class="row container center margin-40">
+      <button
+        id="pokedex-mode-button"
+        class="toggle-mode-button active-mode"
+        onclick="setMode('pokedex')"
+      >
+        Pokédex
+      </button>
+      <button
+        id="tcg-mode-button"
+        class="toggle-mode-button"
+        onclick="setMode('tcg')"
+      >
+        TCG Cards
+      </button>
+    </div>
+
+    <!-- Search Bar -->
+    <div id="search-bar-container" class="row container margin-40">
+      <input
+        id="search-input"
+        onkeydown="search()"
+        placeholder="Search your Pokemon"
+      />
+      <div id="start-search-button" class="center" onclick="search()">
+        <i class="fas fa-search"></i>
+      </div>
+    </div>
+
+    <!-- Container for listing the results -->
+    <div id="pokedex-list-render-container"></div>
+  </div>
+
+  <!-- Responsive background & close button for detail view -->
+  <div id="current-pokemon-responsive-background" class="hide"></div>
+  <div
+    id="current-pokemon-responsive-close"
+    class="hide"
+    onclick="closePokemonInfo()"
+  >
+    <img src="src/close-icon.png" />
+  </div>
+
+  <!-- Right-side or bottom panel for selected Pokémon or TCG card -->
+  <div id="current-pokemon-container" class="container column center">
+    <!-- Shared big image on top (Pokémon or TCG) -->
+    <img
+      id="current-pokemon-image"
+      src="src/no-pokemon-selected-image.png"
+    />
+
+    <!-- POKéMON INFO (the original one) -->
+    <div id="current-pokemon-info" class="hide">
+      <!-- Id -->
+      <span id="current-pokemon-id" class="font-size-12 bold">#213</span>
+      <!-- name -->
+      <h2 id="current-pokemon-name">Pikachu</h2>
+      <!-- types -->
+      <div id="current-pokemon-types" class="row center"></div>
+      <!-- description -->
+      <h4>Pokedex Entry</h4>
+      <span id="current-pokemon-description"></span>
+      <!-- height/weight -->
+      <div class="row center">
+        <div class="width-100 column center margin-5">
+          <h4>Height</h4>
+          <div
+            id="current-pokemon-height"
+            class="pokemon-info-variable-container"
+          ></div>
+        </div>
+        <div class="width-100 column center margin-5">
+          <h4>Weight</h4>
+          <div
+            id="current-pokemon-weight"
+            class="pokemon-info-variable-container"
+          ></div>
+        </div>
+      </div>
+      <!-- abilities -->
+      <div class="column">
+        <h4>Abilities</h4>
+        <div class="row">
+          <div
+            id="current-pokemon-abilitiy-0"
+            class="pokemon-info-variable-container"
+          ></div>
+          <div
+            id="current-pokemon-abilitiy-1"
+            class="pokemon-info-variable-container"
+          ></div>
+        </div>
+      </div>
+      <!-- stats -->
+      <h4>Stats</h4>
+      <div class="row center">
+        <div class="current-pokemon-stats-container column">
+          <div class="current-pokemon-stats-name" style="background: #df2140">
+            HP
+          </div>
+          <h5 id="current-pokemon-stats-hp">84</h5>
+        </div>
+        <div class="current-pokemon-stats-container column">
+          <div class="current-pokemon-stats-name" style="background: #ff994d">
+            ATK
+          </div>
+          <h5 id="current-pokemon-stats-atk">84</h5>
+        </div>
+        <div class="current-pokemon-stats-container column">
+          <div class="current-pokemon-stats-name" style="background: #eecd3d">
+            DEF
+          </div>
+          <h5 id="current-pokemon-stats-def">84</h5>
+        </div>
+        <div class="current-pokemon-stats-container column">
+          <div class="current-pokemon-stats-name" style="background: #85ddff">
+            SpA
+          </div>
+          <h5 id="current-pokemon-stats-spa">84</h5>
+        </div>
+        <div class="current-pokemon-stats-container column">
+          <div class="current-pokemon-stats-name" style="background: #96da83">
+            SpD
+          </div>
+          <h5 id="current-pokemon-stats-spd">84</h5>
+        </div>
+        <div class="current-pokemon-stats-container column">
+          <div class="current-pokemon-stats-name" style="background: #fb94a8">
+            SPD
+          </div>
+          <h5 id="current-pokemon-stats-speed">84</h5>
+        </div>
+        <div
+          class="current-pokemon-stats-container column"
+          style="background: #88aaea"
+        >
+          <div class="current-pokemon-stats-name" style="background: #7195dc">
+            TOT
+          </div>
+          <h5 id="current-pokemon-stats-total">84</h5>
+        </div>
+      </div>
+      <!-- Evolution chain -->
+      <div id="current-pokemon-evolution-chain-container">
+        <h4>Evolution</h4>
+        <div class="row center">
+          <img
+            id="current-pokemon-evolution-0"
+            class="current-pokemon-evolution-image"
+            src="./src/pokeball-icon.png"
+          />
+          <div
+            id="current-pokemon-evolution-level-0"
+            class="current-pokemon-evolution-level-container font-size-12 bold"
+          >
+            Lv. 16
+          </div>
+          <img
+            id="current-pokemon-evolution-1"
+            class="current-pokemon-evolution-image"
+            src="./src/pokeball-icon.png"
+          />
+          <div
+            id="current-pokemon-evolution-level-1"
+            class="current-pokemon-evolution-level-container font-size-12 bold"
+          >
+            Lv. 36
+          </div>
+          <img
+            id="current-pokemon-evolution-2"
+            class="current-pokemon-evolution-image"
+            src="./src/pokeball-icon.png"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- TCG CARD INFO (NEW) -->
+    <div id="current-tcg-info" class="hide">
+      <span id="current-tcg-id" class="font-size-12 bold"></span>
+      <h2 id="current-tcg-name"></h2>
+
+      <!-- Example data fields for TCG cards -->
+      <h4>Set Name</h4>
+      <span id="current-tcg-set"></span>
+
+      <h4>Type / Subtype</h4>
+      <span id="current-tcg-type"></span>
+
+      <h4>HP</h4>
+      <span id="current-tcg-hp"></span>
+
+      <h4>Rules</h4>
+      <span id="current-tcg-rules"></span>
+    </div>
+
+    <!-- Empty message if no Pokémon or TCG selected yet -->
+    <div id="current-pokemon-empty">
+      <span class="font-size-18"
+        >Select a Pokemon or TCG card<br />to display here.</span
+      >
+    </div>
+  </div>
+
+  <!--Back to top button-->
+  <div id="back-to-top-button" class="hide" onclick="backToTop()">
+    <img src="src/arrow-up-icon.png" />
+  </div>
+
+  <!--Loading selected pokemon (optional)-->
+  <img
+    id="current-pokemon-loading"
+    src="src/pokeball-icon.png"
+    class="loading-ball"
+  />
+</body>
+</html>
