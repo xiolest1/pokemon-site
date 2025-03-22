@@ -12,6 +12,8 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Font Awesome for the search icon -->
   <link
     rel="stylesheet"
     href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
@@ -53,7 +55,8 @@
         onkeydown="search()"
         placeholder="Search your Pokemon"
       />
-      <div id="start-search-button" class="center" onclick="search()">
+      <div id="start-search-button" onclick="search()">
+        <!-- Magnifying glass icon -->
         <i class="fas fa-search"></i>
       </div>
     </div>
@@ -80,7 +83,7 @@
       src="src/no-pokemon-selected-image.png"
     />
 
-    <!-- POKéMON INFO (the original one) -->
+    <!-- POKÉMON INFO (original) -->
     <div id="current-pokemon-info" class="hide">
       <!-- Id -->
       <span id="current-pokemon-id" class="font-size-12 bold">#213</span>
@@ -206,23 +209,53 @@
       </div>
     </div>
 
-    <!-- TCG CARD INFO (NEW) -->
+    <!-- TCG CARD INFO (detailed & styled similarly) -->
     <div id="current-tcg-info" class="hide">
-      <span id="current-tcg-id" class="font-size-12 bold"></span>
-      <h2 id="current-tcg-name"></h2>
+      <h4>TCG Card Details</h4>
 
-      <!-- Example data fields for TCG cards -->
-      <h4>Set Name</h4>
-      <span id="current-tcg-set"></span>
+      <!-- Name & HP row (similar to Pokemon name/hp) -->
+      <div class="row center margin-5">
+        <div class="width-100 column center margin-5">
+          <h4>Name</h4>
+          <div id="current-tcg-name" class="pokemon-info-variable-container"></div>
+        </div>
+        <div class="width-100 column center margin-5">
+          <h4>HP</h4>
+          <div id="current-tcg-hp" class="pokemon-info-variable-container"></div>
+        </div>
+      </div>
 
-      <h4>Type / Subtype</h4>
-      <span id="current-tcg-type"></span>
+      <!-- Types & EvolvesFrom row -->
+      <div class="row center margin-5">
+        <div class="width-100 column center margin-5">
+          <h4>Types</h4>
+          <div id="current-tcg-types" class="pokemon-info-variable-container"></div>
+        </div>
+        <div class="width-100 column center margin-5">
+          <h4>Evolves From</h4>
+          <div id="current-tcg-evolves" class="pokemon-info-variable-container"></div>
+        </div>
+      </div>
 
-      <h4>HP</h4>
-      <span id="current-tcg-hp"></span>
+      <!-- Attacks (multiple) -->
+      <h4>Attacks</h4>
+      <div id="current-tcg-attacks" class="column" style="margin-bottom:10px;"></div>
 
-      <h4>Rules</h4>
-      <span id="current-tcg-rules"></span>
+      <!-- Weaknesses -->
+      <h4>Weaknesses</h4>
+      <div id="current-tcg-weaknesses" class="pokemon-info-variable-container margin-5"></div>
+
+      <!-- Set info row -->
+      <div class="row center margin-5">
+        <div class="width-100 column center margin-5">
+          <h4>Set Name</h4>
+          <div id="current-tcg-setname" class="pokemon-info-variable-container"></div>
+        </div>
+        <div class="width-100 column center margin-5">
+          <h4>Release Date</h4>
+          <div id="current-tcg-released" class="pokemon-info-variable-container"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Empty message if no Pokémon or TCG selected yet -->
@@ -238,7 +271,7 @@
     <img src="src/arrow-up-icon.png" />
   </div>
 
-  <!--Loading selected pokemon (optional)-->
+  <!--Loading selected pokemon-->
   <img
     id="current-pokemon-loading"
     src="src/pokeball-icon.png"
