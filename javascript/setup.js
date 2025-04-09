@@ -1,5 +1,4 @@
-let pokemons = [' ']; // So index 1 lines up with ID=1 (Bulbasaur)
-let pokemonsLoaded = false;
+let pokemons = [' '];
 
 /**fetch pokemon name and id */
 async function getAllNames() {
@@ -13,33 +12,31 @@ async function getAllNames() {
             name: responseAsJson.results[i].name,
             types: []
         });
-    }
+    };
 
     getAllTypes();
-}
+};
 
 /**fetch pokemon types */
 async function getAllTypes() {
     for (let i = 0; i < 18; i++) {
-        let url = 'https://pokeapi.co/api/v2/type/' + (i + 1);
-        let response = await fetch(url);
-        let responseAsJson = await response.json();
+        let url = 'https://pokeapi.co/api/v2/type/' + (i + 1)
+        let response = await fetch(url)
+        let responseAsJson = await response.json()
 
-        const pokemonInType = responseAsJson.pokemon;
+        const pokemonInType = responseAsJson.pokemon
         
-        for(let j = 0; j < pokemonInType.length; j++) {
-            const pokemonId = pokemonInType[j].pokemon.url
-                .replace('https://pokeapi.co/api/v2/pokemon/', '')
-                .replace('/', '');
+        for(j = 0; j < pokemonInType.length; j++) {
+            const pokemonId = pokemonInType[j].pokemon.url.replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '');
 
             if(pokemonId <= pokemons.length && pokemons[pokemonId]) {
                 pokemons[pokemonId].types.push(responseAsJson.name);
-            }
-        }
-    }
+            };
+        };
+    };
 
     loadingCompletion();
-}
+};
 
 /**hide loading div after completion */
 function loadingCompletion() {
@@ -51,9 +48,8 @@ function loadingCompletion() {
         document.body.style.overflow = 'unset';
     }, 500);
 
-    pokemons.splice(0, 1); // remove dummy at index 0
-    currentList = pokemons; // from pokemon-list.js
-    pokemonsLoaded = true;
+    pokemons.splice(0, 1);
+    currentList = pokemons;
 
     updatePokemonList();
-}
+};
