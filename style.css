@@ -100,7 +100,10 @@ input {
     border: none;
     outline: none;
     font-size: 18px;
-    flex: 1
+    flex: 1;
+    border-radius: 19px;
+    padding: 8px 15px;
+    background-color: var(--container-bg);
 }
 
 .margin-5 {
@@ -160,7 +163,7 @@ input {
 }
 
 #start-search-button:hover {
-    opacity: 0.8;
+    opacity: 0.7;
     box-shadow: #ff53509c 3px 3px 13px;
 }
 
